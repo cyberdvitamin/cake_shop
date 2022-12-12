@@ -1,5 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -60,6 +62,32 @@ public class Magazin extends JFrame {
                 JPanel PlaseazaComanda = new JPanel();
                 PlaseazaComanda plaseazaComanda = new PlaseazaComanda();
                 dispose();
+            }
+        });
+        btnSterge.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the selected row index from the cumparaturi table
+                int selectedRowIndex = cumparaturi.getSelectedRow();
+
+                // Check if a row is selected
+                if (selectedRowIndex != -1) {
+                    // Use the getValueAt() method of the JTable class to get the value of the ID column in the selected row
+                    int selectedID = (int)cumparaturi.getValueAt(selectedRowIndex, 0);
+
+                    // Execute a DELETE query with the selected ID to delete the row from the database
+                    try {
+                        Connection c = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                        Statement s = c.createStatement();
+                        s.executeUpdate("DELETE FROM cos_cumparaturi WHERE ID = " + selectedID);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    // Use the removeRow() method of the DefaultTableModel class to remove the selected row
+                    ((DefaultTableModel)cumparaturi.getModel()).removeRow(selectedRowIndex);
+                }
+
             }
         });
     }

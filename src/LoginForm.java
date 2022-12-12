@@ -99,9 +99,6 @@ public class LoginForm extends JDialog {
         if(user!=null){
             JPanel Shop = new JPanel();
             Magazin magazin = new Magazin();
-            //System.out.println("Successful Authentication of: " + user.username);
-            //System.out.println("          Username: " + user.username);
-            //System.out.println("          Password: " + user.password);
         }
         else{
             System.out.println("Authentication canceled");

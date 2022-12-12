@@ -34,8 +34,4 @@ public class AdaugaProdusInCos extends JFrame {
             }
         });
     }
-
-
-
-
 }
