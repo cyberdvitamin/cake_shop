@@ -6,7 +6,7 @@ public class PlaseazaComanda extends JFrame {
     private JPanel PlaseazaComanda;
     private JLabel lfPlata;
 
-    float textPlata;
+    float textPlata = Magazin.Total;
 
 
     public PlaseazaComanda() {

@@ -14,6 +14,8 @@ public class Magazin extends JFrame {
     private JButton btnComanda;
     private Component panell;
 
+    static float Total = 0;
+
 
     public void main(String[] args) {
         JFrame f = new JFrame("Magazin");
@@ -82,6 +84,7 @@ public class Magazin extends JFrame {
             {
                 Object[] row = {rs.getInt("ID"),rs.getString("articol"),rs.getFloat("pret"),rs.getInt("gramaj")};
                 cosCumparaturi.addRow(row);
+                Total = Total + rs.getFloat("pret");
             }
 
         } catch (SQLException e){
