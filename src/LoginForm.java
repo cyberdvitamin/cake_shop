@@ -1,8 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.io.*;
 
 public class LoginForm extends JDialog {
     private JTextField tfUsername;
@@ -19,6 +21,14 @@ public class LoginForm extends JDialog {
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        try {
+            Image logo = ImageIO.read(new File("src/asset/cupcake.png"));
+            setIconImage(logo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         btnLogin.addActionListener(new ActionListener() {
             @Override

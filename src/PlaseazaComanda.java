@@ -1,5 +1,8 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 
 public class PlaseazaComanda extends JFrame {
@@ -15,6 +18,14 @@ public class PlaseazaComanda extends JFrame {
         setContentPane(PlaseazaComanda);
         setMinimumSize(new Dimension(350, 100));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        try {
+            Image logo = ImageIO.read(new File("src/asset/cupcake.png"));
+            setIconImage(logo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         setLfPlata();
     }
 
