@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Cofetarie SQL" uuid="035b32a4-2b0c-4d48-9bde-007cb85c585a">
+    <data-source source="LOCAL" name="Cofetarie" uuid="96d736da-cc5b-4aa5-9398-d23700626bb8">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

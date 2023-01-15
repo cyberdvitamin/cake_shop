@@ -65,11 +65,11 @@ public class LoginForm extends JDialog {
         final String PASSWORD = "password123";
 
         try {
-            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM utilizator WHERE username=? AND password=?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM user WHERE username=? AND password=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
 
@@ -80,11 +80,12 @@ public class LoginForm extends JDialog {
                 user = new User();
                 user.username = resultSet.getString("username");
                 user.password = resultSet.getString("password");
+                user.checkAdmin = resultSet.getInt("checkAdmin");
 
             }
 
-            stmt.close();
-            conn.close();
+            statement.close();
+            connection.close();
 
         }catch(Exception e){
             e.printStackTrace();
@@ -93,15 +94,24 @@ public class LoginForm extends JDialog {
         return user;
     }
 
+
     public static void main(String[] args){
         LoginForm loginForm = new LoginForm(null);
         User user = loginForm.user;
-        if(user!=null){
+        if(user!=null && user.checkAdmin == 0){
+            System.out.println("User Logged");
             JPanel Shop = new JPanel();
             Magazin magazin = new Magazin();
         }
-        else{
-            System.out.println("Authentication canceled");
+        else {
+            if (user!=null && user.checkAdmin == 1) {
+                System.out.println("Admin Logged");
+                JPanel adminIU = new JPanel();
+                AdminInterface adminInterface = new AdminInterface();
+            }
+            else{
+                System.out.println("Authentication canceled");
+            }
         }
     }
 

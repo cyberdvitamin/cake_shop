@@ -17,6 +17,7 @@ public class PlaseazaComanda extends JFrame {
         setTitle("Succes!");
         setContentPane(PlaseazaComanda);
         setMinimumSize(new Dimension(350, 100));
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         try {

@@ -14,7 +14,6 @@ import java.sql.*;
 public class Magazin extends JFrame {
     private JPanel Shop;
     private JTable inventar;
-
     private JTable cumparaturi;
     private JButton btnAdauga;
     private JButton btnSterge;
@@ -26,19 +25,18 @@ public class Magazin extends JFrame {
 
     public void main(String[] args) {
         JFrame f = new JFrame("Magazin");
-        f.setSize(300, 300);
+        f.setSize(200, 300);
         f.add(new Magazin().panell);
         f.setVisible(true);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-
-
     public Magazin(){
         setVisible(true);
         setTitle("Magazin");
         setContentPane(Shop);
-        setMinimumSize(new Dimension(750, 400));
+        setMinimumSize(new Dimension(1000, 400));
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         try {
@@ -74,12 +72,13 @@ public class Magazin extends JFrame {
                 if (selectedRowIndex != -1) {
                     // Use the getValueAt() method of the JTable class to get the value of the ID column in the selected row
                     int selectedID = (int)cumparaturi.getValueAt(selectedRowIndex, 0);
+                    Total = Total - (float) cumparaturi.getValueAt(selectedRowIndex,2);
 
                     // Execute a DELETE query with the selected ID to delete the row from the database
                     try {
-                        Connection c = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-                        Statement s = c.createStatement();
-                        s.executeUpdate("DELETE FROM cos_cumparaturi WHERE ID = " + selectedID);
+                        Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                        Statement statement = connection.createStatement();
+                        statement.executeUpdate("DELETE FROM cos_cumparaturi WHERE ID = " + selectedID);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -95,17 +94,22 @@ public class Magazin extends JFrame {
     final String URL = "jdbc:mysql://localhost:3306/cofetarie";
     final String USERNAME = "root";
     final String PASSWORD = "password123";
-    String header[] = {"ID", "Tort", "Pret", "Cantitate"};
+
+    String header[] = {"ID", "Tort", "Pret / 100g (RON)", "Cantitate in stoc"};
+
+    String headerCos[] = {"ID", "Tort", "Pret (RON)", "Cantitate in grame"};
+
 
     public void createUIComponents() {
-        // TODO: place custom component creation code here
         DefaultTableModel tabel_inventar = new DefaultTableModel (0,4);
         tabel_inventar.setColumnIdentifiers(header);
+        inventar = new JTable(tabel_inventar);
+        inventar.setEnabled(false);
+
         try {
-            inventar = new JTable(tabel_inventar);
-            Connection c = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery("select * from tort");
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from inventar");
             while(rs.next())
             {
                 Object[] row = {rs.getInt("ID"),rs.getString("denumire"),rs.getFloat("pret"),rs.getInt("gramaj")};
@@ -116,14 +120,14 @@ public class Magazin extends JFrame {
             e.printStackTrace();
         }
 
-
         DefaultTableModel cosCumparaturi = new DefaultTableModel (0,4);
-        cosCumparaturi.setColumnIdentifiers(header);
+        cosCumparaturi.setColumnIdentifiers(headerCos);
+        cumparaturi = new JTable(cosCumparaturi);
+
         try {
-            cumparaturi = new JTable(cosCumparaturi);
-            Connection c = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            Statement s = c.createStatement();
-            ResultSet rs = s.executeQuery("select * from cos_cumparaturi");
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from cos_cumparaturi");
             while(rs.next())
             {
                 Object[] row = {rs.getInt("ID"),rs.getString("articol"),rs.getFloat("pret"),rs.getInt("gramaj")};
@@ -131,8 +135,15 @@ public class Magazin extends JFrame {
                 Total = Total + rs.getFloat("pret");
             }
 
-        } catch (SQLException e){
-            e.printStackTrace();
+            TableColumn idColumn = cumparaturi.getColumnModel().getColumn(0);
+            idColumn.setMinWidth(0);
+            idColumn.setMaxWidth(0);
+            idColumn.setWidth(0);
+            idColumn.setPreferredWidth(0);
+            idColumn.setResizable(false);
+
+        } catch (SQLException e1){
+            e1.printStackTrace();
         }
 
     }
