@@ -50,9 +50,6 @@ public class AdminInterface extends JFrame{
         final String PASSWORD = "password123";
 
 
-
-
-
         btnAdauga.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,15 +159,11 @@ public class AdminInterface extends JFrame{
         btnSterge.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the selected row index from the cumparaturi table
                 int selectedRowIndex = inventar.getSelectedRow();
 
-                // Check if a row is selected
                 if (selectedRowIndex != -1) {
-                    // Use the getValueAt() method of the JTable class to get the value of the ID column in the selected row
                     int selectedID = (int)inventar.getValueAt(selectedRowIndex, 0);
 
-                    // Execute a DELETE query with the selected ID to delete the row from the database
                     try {
                         Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
                         Statement statement = connection.createStatement();
@@ -179,7 +172,6 @@ public class AdminInterface extends JFrame{
                         ex.printStackTrace();
                     }
 
-                    // Use the removeRow() method of the DefaultTableModel class to remove the selected row
                     ((DefaultTableModel)inventar.getModel()).removeRow(selectedRowIndex);
                 }
 

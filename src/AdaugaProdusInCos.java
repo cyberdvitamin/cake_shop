@@ -42,7 +42,6 @@ public class AdaugaProdusInCos extends JFrame {
         btnAdauga.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 try {
                     Connection connection1 = DriverManager.getConnection(URL, USERNAME, PASSWORD);
                     Statement statement = connection1.createStatement();

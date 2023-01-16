@@ -57,12 +57,13 @@ public class LoginForm extends JDialog {
     }
 
     public User user;
+
+    static final String URL = "jdbc:mysql://localhost:3306/cofetarie";
+    static final String USERNAME = "root";
+    static final String PASSWORD = "password123";
+
     private User getAuthenticatedUser(String username, String password){
         User user = null;
-
-        final String URL = "jdbc:mysql://localhost:3306/cofetarie";
-        final String USERNAME = "root";
-        final String PASSWORD = "password123";
 
         try {
             Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -99,12 +100,28 @@ public class LoginForm extends JDialog {
         LoginForm loginForm = new LoginForm(null);
         User user = loginForm.user;
         if(user!=null && user.checkAdmin == 0){
+            try {
+                Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                Statement statement = connection.createStatement();
+                statement.executeUpdate("DELETE FROM cos_cumparaturi");
+            } catch (SQLException e1){
+                e1.printStackTrace();
+            }
+
             System.out.println("User Logged");
             JPanel Shop = new JPanel();
             Magazin magazin = new Magazin();
         }
         else {
             if (user!=null && user.checkAdmin == 1) {
+                try {
+                    Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                    Statement statement = connection.createStatement();
+                    statement.executeUpdate("DELETE FROM cos_cumparaturi");
+                } catch (SQLException e1){
+                    e1.printStackTrace();
+                }
+
                 System.out.println("Admin Logged");
                 JPanel adminIU = new JPanel();
                 AdminInterface adminInterface = new AdminInterface();

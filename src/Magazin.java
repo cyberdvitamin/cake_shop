@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.ScatteringByteChannel;
 import java.sql.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Magazin extends JFrame {
     private JPanel Shop;
@@ -19,7 +22,6 @@ public class Magazin extends JFrame {
     private JButton btnSterge;
     private JButton btnComanda;
     private Component panell;
-
     static float Total = 0;
 
 
@@ -46,7 +48,6 @@ public class Magazin extends JFrame {
             e.printStackTrace();
         }
 
-
         btnAdauga.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,16 +66,12 @@ public class Magazin extends JFrame {
         btnSterge.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Get the selected row index from the cumparaturi table
                 int selectedRowIndex = cumparaturi.getSelectedRow();
 
-                // Check if a row is selected
                 if (selectedRowIndex != -1) {
-                    // Use the getValueAt() method of the JTable class to get the value of the ID column in the selected row
                     int selectedID = (int)cumparaturi.getValueAt(selectedRowIndex, 0);
                     Total = Total - (float) cumparaturi.getValueAt(selectedRowIndex,2);
 
-                    // Execute a DELETE query with the selected ID to delete the row from the database
                     try {
                         Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
                         Statement statement = connection.createStatement();
@@ -83,7 +80,6 @@ public class Magazin extends JFrame {
                         ex.printStackTrace();
                     }
 
-                    // Use the removeRow() method of the DefaultTableModel class to remove the selected row
                     ((DefaultTableModel)cumparaturi.getModel()).removeRow(selectedRowIndex);
                 }
 
@@ -101,6 +97,22 @@ public class Magazin extends JFrame {
 
 
     public void createUIComponents() {
+
+        JButton btnUpdateCos = new JButton("Actualizeaza Cos");
+        JButton btnUpdateInventar = new JButton("Actualizeaza Inventar");
+        JPanel mainPanel = new JPanel();
+        mainPanel.add(btnUpdateCos);
+        mainPanel.add(btnUpdateInventar);
+        mainPanel.add(new JScrollPane(cumparaturi));
+        mainPanel.add(new JScrollPane(inventar));
+        JFrame mainFrame = new JFrame();
+        mainFrame.setSize(250, 105);
+        mainFrame.add(mainPanel);
+        mainFrame.setLocation(900, 215);
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+
         DefaultTableModel tabel_inventar = new DefaultTableModel (0,4);
         tabel_inventar.setColumnIdentifiers(header);
         inventar = new JTable(tabel_inventar);
@@ -124,6 +136,7 @@ public class Magazin extends JFrame {
         cosCumparaturi.setColumnIdentifiers(headerCos);
         cumparaturi = new JTable(cosCumparaturi);
 
+
         try {
             Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             Statement statement = connection.createStatement();
@@ -145,6 +158,51 @@ public class Magazin extends JFrame {
         } catch (SQLException e1){
             e1.printStackTrace();
         }
+
+        btnUpdateCos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    cosCumparaturi.setRowCount(0);
+
+                    Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                    Statement statement = connection.createStatement();
+
+                    ResultSet rs = statement.executeQuery("select * from cos_cumparaturi");
+
+                    while(rs.next()) {
+                        Object[] row = {rs.getInt("ID"), rs.getString("articol"), rs.getFloat("pret"), rs.getInt("gramaj")};
+                        cosCumparaturi.addRow(row);
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        btnUpdateInventar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    tabel_inventar.setRowCount(0);
+
+                    Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                    Statement statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery("select * from inventar");
+                    while(rs.next())
+                    {
+                        Object[] row = {rs.getInt("ID"),rs.getString("denumire"),rs.getFloat("pret"),rs.getInt("gramaj")};
+                        tabel_inventar.addRow(row);
+                    }
+
+                } catch (SQLException e1){
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+
+
+
 
     }
 

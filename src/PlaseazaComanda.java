@@ -32,6 +32,15 @@ public class PlaseazaComanda extends JFrame {
 
     public void setLfPlata(){
         this.lfPlata.setText("Total de plata: " + textPlata + " lei.");
+        System.out.println("Comanda finalizata cu success!");
+
+        try {
+            Connection connection = DriverManager.getConnection(LoginForm.URL, LoginForm.USERNAME, LoginForm.PASSWORD);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM cos_cumparaturi");
+        } catch (SQLException e1){
+            e1.printStackTrace();
+        }
     }
 
 
