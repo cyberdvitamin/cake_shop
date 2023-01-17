@@ -61,6 +61,7 @@ public class AdaugaProdusInCos extends JFrame {
 
                             denumire_tort = String.valueOf(rs.getString("denumire"));
                             cantitateInventar = Double.valueOf(rs.getDouble("gramaj"));
+                            cantitate = Double.parseDouble(tfCantitate.getText());
 
                             correctID = true;
 
@@ -90,8 +91,6 @@ public class AdaugaProdusInCos extends JFrame {
                             Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
                             String query = "INSERT INTO cos_cumparaturi (articol, pret, gramaj) VALUES (?, ?, ?)";
-
-                            cantitate = Double.parseDouble(tfCantitate.getText());
 
                             PreparedStatement preparedStatement = connection.prepareStatement(query);
                             preparedStatement.setString(1, String.valueOf(denumire_tort));
