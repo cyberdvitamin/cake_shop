@@ -91,7 +91,6 @@ public class AdminInterface extends JFrame{
 
                 try {
                     Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-                    Statement statement = connection.createStatement();
 
                     String query = "INSERT INTO inventar (id, denumire, pret, gramaj) VALUES (?, ?, ?, ?)";
 
