@@ -79,7 +79,7 @@ public class AdaugaProdusInCos extends JFrame {
                 if (correctID == true) {
                     if (cantitate > cantitateInventar)
                     {
-                        JOptionPane optionPane = new JOptionPane("Ai ales o cantitate mai mare dedcat cea din stoc!", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane optionPane = new JOptionPane("Ai ales o cantitate mai mare decat cea din stoc!", JOptionPane.INFORMATION_MESSAGE);
                         JDialog dialog = optionPane.createDialog("ERROR");
                         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                         dialog.setVisible(true);

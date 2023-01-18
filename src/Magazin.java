@@ -90,7 +90,6 @@ public class Magazin extends JFrame {
     final String PASSWORD = "password123";
 
     String header[] = {"ID", "Tort", "Pret / 100g (RON)", "Cantitate in stoc"};
-
     String headerCos[] = {"ID", "Tort", "Pret (RON)", "Cantitate in grame"};
 
 
