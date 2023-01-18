@@ -21,6 +21,8 @@ public class Magazin extends JFrame {
     static float Total = 0;
 
 
+
+
     public void main(String[] args) {
         JFrame f = new JFrame("Magazin");
         f.setSize(200, 300);
@@ -66,7 +68,7 @@ public class Magazin extends JFrame {
 
                 if (selectedRowIndex != -1) {
                     int selectedID = (int)cumparaturi.getValueAt(selectedRowIndex, 0);
-                    Total = Total - (float) cumparaturi.getValueAt(selectedRowIndex,2);
+                    Total = Total - (float)cumparaturi.getValueAt(selectedRowIndex,2);
 
                     try {
                         Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
