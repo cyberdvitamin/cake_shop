@@ -120,7 +120,7 @@ public class Magazin extends JFrame {
             ResultSet rs = statement.executeQuery("select * from inventar");
             while(rs.next())
             {
-                Object[] row = {rs.getInt("ID"),rs.getString("denumire"),rs.getFloat("pret"),rs.getInt("gramaj")};
+                Object[] row = {rs.getInt("ID"),rs.getString("denumire"),rs.getFloat("pret"),rs.getDouble("gramaj")};
                 tabel_inventar.addRow(row);
             }
 
@@ -139,7 +139,7 @@ public class Magazin extends JFrame {
             ResultSet rs = statement.executeQuery("select * from cos_cumparaturi");
             while(rs.next())
             {
-                Object[] row = {rs.getInt("ID"),rs.getString("articol"),rs.getFloat("pret"),rs.getInt("gramaj")};
+                Object[] row = {rs.getInt("ID"),rs.getString("articol"),rs.getFloat("pret"),rs.getDouble("gramaj")};
                 cosCumparaturi.addRow(row);
                 Total = Total + rs.getFloat("pret");
             }
@@ -167,7 +167,7 @@ public class Magazin extends JFrame {
                     ResultSet rs = statement.executeQuery("select * from cos_cumparaturi");
 
                     while(rs.next()) {
-                        Object[] row = {rs.getInt("ID"), rs.getString("articol"), rs.getFloat("pret"), rs.getInt("gramaj")};
+                        Object[] row = {rs.getInt("ID"), rs.getString("articol"), rs.getFloat("pret"), rs.getDouble("gramaj")};
                         cosCumparaturi.addRow(row);
                     }
                 } catch (SQLException ex) {
@@ -186,7 +186,7 @@ public class Magazin extends JFrame {
                     ResultSet rs = statement.executeQuery("select * from inventar");
                     while(rs.next())
                     {
-                        Object[] row = {rs.getInt("ID"),rs.getString("denumire"),rs.getFloat("pret"),rs.getInt("gramaj")};
+                        Object[] row = {rs.getInt("ID"),rs.getString("denumire"),rs.getFloat("pret"),rs.getDouble("gramaj")};
                         tabel_inventar.addRow(row);
                     }
 
